@@ -221,13 +221,13 @@ Here's a detailed ASIC design flow using OpenLane and the associated tools and s
 
 https://github.com/efabless/openlane
 
-#### Steps to characterize snthsis results
-
-
-
 [Back to COURSE](https://github.com/Vinodkumar8318/Pes_Openlane_work/tree/main#course)
 
 </details>
+
+
+
+
 <details>
 <summary>DAY 2 : Good floorplan vs bad floorplan and introduction to library cells </summary>
 <br>
