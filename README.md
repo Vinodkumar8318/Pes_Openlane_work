@@ -328,13 +328,30 @@ https://github.com/efabless/openlane
 
 ## L6) Steps to run Flopor planning using Openlane
 
+      - These are the defalt Floorplans 
+ 
+ ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/955048e2-542b-4c18-8d0f-b976fad8e0cc)
+ 
+
+ ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/e11daa35-37e2-43e5-ab56-fccd9cad5ee0)
+
+
+## L7) Review Floorplan files and steps to veiw Floorplan
 
 
 
 
+## 2) LIBRARY BINDING AND PLACEMENTS
 
+## L1) Netlist binding and initial Place Design
 
+## L2) Optimize placement using estimate wire length and capacitance
 
+## L3) Final placement optimization 
+
+## L4) Need for libraries and characterization 
+
+## L5) Congestion aware placement using replace
 
 
 
