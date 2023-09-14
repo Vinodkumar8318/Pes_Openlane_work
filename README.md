@@ -196,7 +196,7 @@ Here's a detailed ASIC design flow using OpenLane and the associated tools and s
 #### Design Preparation step
 
     - in openlane directory
-    - %pakage require openlane 0.9
+    - package require openlane 0.9
     - prep -design picorv32a
 
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/cc01cf5a-a7d6-44b7-86a5-065977e2eafb)
@@ -204,7 +204,7 @@ Here's a detailed ASIC design flow using OpenLane and the associated tools and s
 
 #### Review files after design synthsis and run synthsis
 
-    -run_synthesis
+    - run_synthesis
 
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/dfddb70d-2147-4b62-b61d-64f7da861b80)
 
@@ -233,8 +233,100 @@ https://github.com/efabless/openlane
 <br>
 
 
+# GOOD FLOORPLAN VS BAD FLORPLAN AND INTRODUCTION TO LIBRARY CELLS
+
+## 1) CHIP FLOOR PLANNING CONSIDERATIONS
+
+## L1) Utilization Factor and Aspect ratio
+
+  ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/3aef58ab-6ea3-4aec-9ea3-a1c5ed63b771)
+
+    - Defining the width and height of the core and Die
+    - Consider a netlist with 2 FF and 2 gates with the connections shown below
 
 
+**STEP-1** Make the gates as a Squared box 
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/4f09822c-6af6-42c8-a712-5ae75beed286)
+
+
+**STEP-2** Find out the dimensions of the core and Die ( Dimensions of the standard cells )
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/3e2a0161-d1df-470b-a65f-0163083508ad)
+
+
+ #### For example 
+  - Let us assume that each FF and Gates is on 1 cm breadth and 1cm height
+  - Now Area of each standard cell will be will of 1 cm sq .
+  - Allining tha area ocuupied the netlist in a in a single core .
+  - Below the netlist will be fit into the core So it will be **100% utilization**
+  - **Utilization factor** = Area occupied by the netlist / Total area ocuupied by the core.
+  - where 4sq / 4sq = 1 . 
+  - In this case when utilization factor = 1 , then the core is full no extra components can be added.
+  - **Aspect ratoio** = Height / width , if it is 1 , it signifies that the core is square shaped.
+
+
+
+
+## L2) Pre placed cells
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/a005bcbc-a546-4648-b8a5-0e23ad8c1944)
+
+  - Conisder a combinational block -> Gate level diagram.
+  - Seperate that gate level diagram into two blocks.
+  - Consider the multiple blocks are inside a Black box Now seperate the blackbox as two differnet IP's or Modules .
+  - The Arrangements of the IP's in a chip is called as **Floor planning**.
+  - The IP's will have an user defined loctions and they can be placed in a chip before the placement and rouiting is done hence these are calle as **Pre placed Cells**
+
+
+
+
+## L3) Decoupling Capacitors
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/1892d647-2b21-4e6a-8030-66ce9364f7cc)
+
+  - For any signal to be considered as a Logic 0 and Logic 1, It should be within the NM range ( Either NML or NMH )
+  - The area between the NML and NMH is called undefined area
+  - So in order to maintain the signal to be in the NML or NMh **Decoupling capacitors** are used.
+  - Decoupling capacitors are mainly used to maintain the signal are not inside the undefined area.
+    
+
+
+
+## L4) Power Planning
+
+![Screenshot from 2023-09-14 12-58-34](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/ff16ed45-9495-49a6-b260-d3d194323738)
+
+  - Insted of using individual VDD and VSS for multiple cells in a Block.
+  - Suppose if there are four cells in a Block , Each cell having seperate VDD and VSS are called as **Power Planning**
+
+
+
+
+## L5) Pin placement and Logical cell placement Blockage
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/71f697d9-472c-4e79-a502-2f7001500a86)
+
+  - Here consider a 4 set of circuts with input, clk and output,
+  - Considering all 4 circuits together and placing on a chip in such a way that INPUTS should be at one side and OUTPUT should be at one side which helps us to make the connections easily.
+  - So this process is called as **Pin placement**
+  - Making sure that non of the automated routing tool should not be placed near the i/p and o/p cells it needs to block the cells This is called as **Logical cell placement Blockage**
+    
+
+**Pin Placement**
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/e9a4597c-0d8b-4c75-a8a2-051b0ecb81c7)
+
+
+**Logical cell placement Blockage**
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/cf98ef58-1fb1-4de8-9767-064c70428a9c)
+
+
+
+
+
+## L6) Steps to run Flopor planning using Openlane
 
 
 
