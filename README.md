@@ -390,10 +390,99 @@ https://github.com/efabless/openlane
         - 
 
 
+## 3) CELL DESIGN AND CHARACTERIZATION FLOW
+
+### L1) Inputs for cell Design Flow
+       - For each standard cell (AND,NOR,INVERTER,FF ect) There are different cell design flow
+       - Each Cell Design Flow consists of 3 steps:
+               - Inputs ( which mainly consists of PDK's [ DRC and LVs rules, Spice models, library ect] )
+               - Design Steps (this mainly invovles 3 steps)
+                      - Circuit Design
+                      - Layout Design 
+                      - Charecterization
+               - Outputs ( Outputs we get here is  CDL circuit description language )
+               
+   #### User defined specifications
+       - Cell height = The seperation between the power rail and ground rail defines the cell height.
+       - Supply voltage = A certain cell should be operated at a certain supply voltage which is defined by the Top level design
+       - Metal Layer = Certain Libraries van be designed on a particular Metal Layer.
+       - Pin Location = Library nedds to decide on the pins and the pin location where it needs to be placed.
+
+               
+### L2) Circuit Design step
+      - There are teo steps involved in circuit design:
+            > Implement the Function itself
+            > Modelling the PMOS and NMOS transisters in such a way that the aspect ratio should be matched.
+            
+      
+### L3) Layout Design step
+      - Implimenting the PMOS and NMOS values into layout are called Layout Design 
+      - Steps involved in the layout design are:
+           - Get the function implimented through the MOS transistors
+           - Get a PMOS network graph and NMOS network graph
+           - Obtain Euler's Path and draw a Stick Diagram
+           - Convert the stick diagram into a proper Layout diagram
+           - EXtract the paracetics from the layout and CHaracterize it interms of Timmings.
+
+           
+### L4) Typical Charaterization Flow
+     - Steps involved in the characteriztion flow are :
+           - Read in the Model Files
+           - Read the extracted spice netlist
+           - Define how to recongnise the behaviorur of the buffer
+           - Read the subcircuits of the inverters 
+           - Attach the neccessary Power source
+           - Apply the stimulus
+           - Provide the neccessary output capacitance
+           - Provide the necessary simulation command.
+           - Feed in all the 1 to 8 steps to a configuration file ( GUNA )
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/0628a4c9-b6ec-4321-8d47-738c8892cd6a)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/0f0ba7e0-0b4c-4f67-87d7-b4256aaecca4)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/64a04551-d324-4641-ae5b-d285bfc35305)
 
 
 
+## 4) GENERAL TIMMING CHARECTERIZATION PARAMETERS
 
+### L1) Timming Threshold definations
+      - Timming Threshold Definations
+          - slew_low_rise_thr
+          - slew_high_rise_thr
+          - slew_low_fall_thr
+          - slew_high_fall_thr
+          - in_rise_thr
+          - in_fall_thr
+          - out_rise_thr
+          - out_fall_thr
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/785c4894-f56c-49f5-8967-64d8186ea5b3)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/7059e853-ae6d-4d3e-983d-6d60f1643bbe)
+
+
+         
+### L2) Propogation delay and transition time
+
+     - Propogation Delay = time(out-*-thr)- time(in_*_thr)
+     - There should benot negative delay in the charecterization, This can be taken care by setting a proper threshold point.
+ 
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/ad875fdb-f7fb-42e2-967e-307273173e1c)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/00e224cb-ad87-4d70-b4a5-ff520bede55d)
+
+
+     - Transition Delay = time(slew_high_fall_thr) - time(slew_low_fall_thr)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/0bc19251-9424-4e08-a7f4-c5fae5bc5072)
 
 
 
