@@ -476,7 +476,7 @@ The time difference between when the transitional input reaches 50% of its final
      - There should be no negative delay in the charecterization, This can be taken care by setting a proper threshold point.
 
 ```
-    Propagation delay=time(out_fall_thr)-time(in_rise_thr)
+    Propagation delay = time(out_fall_thr)-time(in_rise_thr)
 
 ```
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/ad875fdb-f7fb-42e2-967e-307273173e1c)
