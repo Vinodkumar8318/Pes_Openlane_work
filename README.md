@@ -336,24 +336,58 @@ https://github.com/efabless/openlane
  ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/e11daa35-37e2-43e5-ab56-fccd9cad5ee0)
 
 
-## L7) Review Floorplan files and steps to veiw Floorplan
-
 
 
 
 ## 2) LIBRARY BINDING AND PLACEMENTS
 
-## L1) Netlist binding and initial Place Design
 
-## L2) Optimize placement using estimate wire length and capacitance
+### L1) Netlist binding and initial Place Design
 
-## L3) Final placement optimization 
+       - Bind netlist with physical cells 
+       - Here it defines about the shape and sixe of the standard cell
+       - Each cells are defined only in either rectange shape or square shape 
+       - In this example, 1 refers to NOT gate, 2 refers to AND gate.   [image 1]
+       - Larger the cell size 
+          > It has a least resistance path
+          > Performes Faster
+       - Once we have a Physical veiw of all cells, It is placed on the Floorplan according to the Netlist.  [image 2]
 
-## L4) Need for libraries and characterization 
-
-## L5) Congestion aware placement using replace
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/42d823d6-4c27-4631-805e-7d8d972ab95a)
 
 
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/f7ff1136-48b7-4e0f-81ea-6a4cbeba3222)
+
+
+
+### L2 and L3) Optimize placement using estimate wire length and capacitance
+
+        - When the cells are not extactly placed on the floorplan as in the netlist, If the relevant cells are not near to i/p or o/p.
+        - Then estimation of wirelength and capacitance comes in.
+        - Depending on the Capacitance and how far the cells are from input and output, Some **Buffers** are added in order to reduce the Wirelength and also to get a complete signal without any             lossses of signal ( but in cost of Area which can be minimized later )
+    
+          
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/59d2d9da-75ca-4615-88e4-f0c0c9878509)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/efe1ae28-f0bd-4df2-aec4-b2316b7e3857)
+
+
+
+### L4) Need for libraries and characterization 
+
+        - Library characterization and modelling depends on some steps,
+        - Logic synthesis  ->  Floor planning  ->  Placement  ->  Clock Tree synthesuis ( CTS )  ->  Routing 
+        - The collection of all the standard cells are placed is one area which is referred as **Library**
+
+        
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/2c0629b1-a07e-45d8-a58a-3e865f7ff28f)
+
+
+
+### L5) Congestion aware placement using replace
+
+        - 
 
 
 
