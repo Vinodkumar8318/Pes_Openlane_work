@@ -470,17 +470,31 @@ https://github.com/efabless/openlane
          
 ### L2) Propogation delay and transition time
 
-     - Propogation Delay = time(out-*-thr)- time(in_*_thr)
-     - There should benot negative delay in the charecterization, This can be taken care by setting a proper threshold point.
- 
+**Propagation Delay**
+The time difference between when the transitional input reaches 50% of its final value and when the output reaches 50% of its final value.
+     
+     - There should be no negative delay in the charecterization, This can be taken care by setting a proper threshold point.
+
+```
+    Propagation delay=time(out_fall_thr)-time(in_rise_thr)
+
+```
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/ad875fdb-f7fb-42e2-967e-307273173e1c)
 
 
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/00e224cb-ad87-4d70-b4a5-ff520bede55d)
 
 
-     - Transition Delay = time(slew_high_fall_thr) - time(slew_low_fall_thr)
+**Transition Time**
+The time it takes the signal to move between states is the transition time , where the time is measured between 10% and 90% or 20% to 80% of the signal levels.
 
+```
+Rise transition time = time(slew_high_rise_thr) - time (slew_low_rise_thr)
+```
+
+```
+Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
+```
 
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/0bc19251-9424-4e08-a7f4-c5fae5bc5072)
 
