@@ -757,6 +757,8 @@ Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
 
 ### L8) Lab introduction to Sky130 basic layers layout and LEF using inverter
 
+                - - Now let us look at the layout of a CMOS inverter. To open this we type the command
+
 ### L9) Lab steps to create std cell layout and extract spice netlist
 
 
