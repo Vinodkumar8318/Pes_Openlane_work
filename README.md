@@ -500,13 +500,209 @@ Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
 
 
 
-
 [Back to COURSE](https://github.com/Vinodkumar8318/Pes_Openlane_work/tree/main#course)
 
 </details>
 <details>
 <summary>DAY 3: Design library cell using magic layout and ngspice characterization </summary>
 <br>
+
+# 1) LABS FOR CMOS INVERTER NGSPICE SIMULATIONS
+
+   ### L1) IO Placer revision
+   
+   ### L2) Spice deck creation for CMOS inverter
+             - Create a SPICE DECK first
+             - > Connectivity information about the netlist
+             - > Set a component values
+             - > Identify the nodes
+             - > Name the nodes
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/954992d0-3bc7-4472-9da6-4d421e22b52b)
+
+
+             SPICE DECK = ***Model description***
+                          ***Netlist Description***
+                          M1 out in vdd vdd pmos w=0.375u L=0.25u
+                          M2 out in 0 0 nmos w=0.375u L=0.25u
+                          
+                          cload out 0 10f
+
+                          Vdd vdd 0 2.5
+                          Vin in 0 2.5
+                          
+                          *** Simulation commands ***
+                          .op
+                          .dc Vin0 0 2.5 0.05
+
+                          *** .include tsmc_0.25um_model.mod ***
+                          .LIB "tsmc_0.25um_model.mod" CMOS_MODELS
+                          .end
+                          
+                          
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/a0d82108-57f3-4a8e-b48d-738fd9455ed1)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/0da222fd-69e1-4669-b815-c301ba82f4d0)
+ 
+   
+   ### L3) Spice simulation lab for cmos inverter
+                  - Spice simulation for a particular specification
+                  
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/6e63ed80-6cad-4f4a-9602-34ded2360357)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/d679273d-4f95-4d47-bab0-1246d5ffe000)
+
+
+   ### L4) Switchin threshold vm
+            - The CMOS on the right side has a bigger size than the one on the left.
+            - These waveforms tell us that the CMOS is a very robust device. The characteristics of the CMOS are maintained across a variety of sizes.
+            - The arrow is pointing to the point where 'Vin = Vout'.
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/ceeebacd-4ae3-475b-af6e-d4e4570e9566)
+            - Above graph gives details on each point and its significance
+            
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/8373d80c-5fe4-4bcf-b35f-c218f83439bb)
+
+
+
+   ### L5) Static and Dynamic simulation of CMOS inverter          - 
+   ### L6) Lab steps to gitclone vsdstd cell design
+            - We need to perform a git clone here from a repository that we require, to do the future labs.
+            - We can type the following command
+                  ```
+                  git clone https://github.com/nickson-jose/vsdstdcelldesign.git
+                  ```
+
+            - Now we need to copy the 'sky130A.tech' file into the directory we just cloned
+            - We can do this by using
+                  ```
+                  cp sky130A.tech /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign
+                  ```
+                  ```
+                  magic -T sky130A.tech sky130_inv.mag & 
+                  ```  
+             in the follwoing directory shown in the figure
+
+![image](https://github.com/AniruddhaN2203/pes_pd/assets/142299140/c0cefbbc-dfd8-40b0-859e-3603e5589416)
+
+
+
+  
+## 2) INCEPTION OF LAYOUT CMOS FABRICATION PROCESS
+
+### L1) Create Active Regions
+           - Selecting a subsrate ( p-type, High resistivity, Doping level,oreintation )
+           - Creating active region for transistors
+                     - Step1 -> Deposit the kayer of photo resist
+                     - Step2 -> Mask1 the region (protecting)
+                     - Step3 -> So the UV rays doesnt hit the photoresist layer which is under Mask.
+                     - Step4 -> Silicon layer is etched off in the Non masking region.
+                     - Step5 -> Remove the Photoresist
+                     - Step6 -> Placed in an oxidation furnance
+                     - Step7 -> Isolation area will be created This process is called as LOCUS.
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/bed3cb8f-55d9-43bb-900c-f99eff654df9)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/efe68587-e3f3-407b-ac55-4e7a50367459)
+
+
+### L2) Formation of N-well and P-well
+                   - Step1 -> Photoresist the Layer
+                   - Step2 -> Mask2 in the required region
+                   - Step3 -> Expose the photoresist to UV rays
+                   - Step4 -> Non masking area will be wanished
+                   - Step5 -> Create a P-well ,It is created by using BORON
+                   - Step6 -> Create a N-well ,It is created by using Phosphorous
+                   - Step7 -> Take the complete structure into High Temperature Furnace
+                   - Step8 -> This diffuses the wells and make proper n-well and p-well, This is called as twin tub process
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/d83b05f8-adc1-41d4-b455-bf37e3667804)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/e56c93fe-5afe-4ac4-b15e-887f9c99874d)
+
+
+### L3) Formation of gate terminal
+                   - Step1 -> Gate formation involves depositing a gate oxide
+                   - Step2 -> Defining gate patterns using photolithography
+                   - Step3 -> Depositing gate material
+                   - Step4 -> Etching to create gates
+                   - Step5 -> Doping the substrate and insulating the gates.
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/52c6eeaa-9910-453b-b130-3cab4b728f1a)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/c37e64fa-802e-4db3-8bb0-55952be93be4)
+
+
+### L4) Ligtly dopped drain (LDD) formation
+                   - Lightly doped drain (LDD) formation involves implanting the drain and source regions of a MOSFET transistor with a lighter concentration of dopants to reduce hot 
+                     electron effect and short channel effect and enhance device performance.
+                   - Doing both  n+ impantation and p+ implantation.
+                   - It involves plasma etching here
+                   
+ ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/34f83ae3-dea6-4e6d-b049-46d2c3028048)
+
+
+ ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/62580c2e-af68-408f-8bfa-347d043ab5fe)
+
+                            
+### L5) Source and drain formation
+                  - Source and drain formation in a MOSFET transistor typically involves doping the silicon substrate with chemicals such as arsenic or phosphorous for n-type regions 
+                  (source and drain) and boron for p-type regions (source and drain).
+                  - Here the source and drain are done by using ARSENIC method
+                  - High temperature annealing is performed.
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/79dd4508-6eca-4f86-bd6f-5c1240e692bf)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/3d2cc62f-0453-4712-9940-1b7215b5038d)
+
+
+### L6) Local interconnect formation
+                  - Steps to form Contacts and Interconnects(local) 
+                      - Step1 -> Titanium is deposited with a process known as sputtering. 
+                      - Step2 -> Wafer is heated to about 650 - 700 C in an N2 ambient furnace for 60 seconds. 
+                      - Step3 -> TiSi2 contacts are formed.  TiN is also formed used for local communication. 
+                      - Step4 -> TiN is etched using RCA cleaning.
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/b1d69f8c-29cf-4d31-b1e0-28116431d9d5)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/9d82ed40-e8b0-4d33-ba28-4c4a654c5084)
+                      
+### L7) Higher level metal formation
+                 - Step1 -> Forming contacts and interconnects locally involves depositing a dielectric material like silicon dioxide
+                 - Step2 -> Patterning it using photolithography
+                 - Step3 -> Eetching contact holes 
+                 - Step4 -> Depositing a barrier metal (e.g., titanium or titanium nitride)
+                 - Step5 -> Filling with a conductor (e.g., aluminum or copper) using chemical vapor deposition (CVD)
+                 - Step6 -> And then planarizing through chemical-mechanical polishing (CMP).
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/25b8dee5-80c4-4f95-983e-cf41e29050c4)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/0fe538d7-15d7-4334-b1ae-80112146cf3c)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/cdc36969-8abe-473b-bbea-7fbf91b0a7e2)
+
+
+### L8) Lab introduction to Sky130 basic layers layout and LEF using inverter
+
+### L9) Lab steps to create std cell layout and extract spice netlist
+
+
+
+
+
+
+
+
 
 [Back to COURSE](https://github.com/Vinodkumar8318/Pes_Openlane_work/tree/main#course)
 
