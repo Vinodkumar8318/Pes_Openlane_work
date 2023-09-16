@@ -206,10 +206,11 @@ Here's a detailed ASIC design flow using OpenLane and the associated tools and s
 
     - run_synthesis
 
-![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/dfddb70d-2147-4b62-b61d-64f7da861b80)
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/0e4690bd-42b7-4824-96e3-c6879a5e5654)
 
 
-![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/3d20283b-3f96-4354-a13f-21dc8cc03b3f)
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/550268eb-a857-49bb-89ba-5a99a0ab0262)
+
 
    - Here the counter d flipflop is **1613**
    - The number of cells is **14876**
@@ -330,11 +331,50 @@ https://github.com/efabless/openlane
 
       - These are the defalt Floorplans 
  
- ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/955048e2-542b-4c18-8d0f-b976fad8e0cc)
- 
+ ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/490bb702-b125-4a02-8b91-f3b190a4580b)
 
- ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/e11daa35-37e2-43e5-ab56-fccd9cad5ee0)
 
+ ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/7d421dc9-ea0c-4250-ae6f-2d8598717d3b)
+
+
+ ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/e080bb6a-bb17-4001-a3f2-0774536b20b4)
+
+
+## L7)
+
+              - In the openlane shell
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/382fb424-a1f7-46a5-981d-bf0aef5ba065)
+              
+              - To open the Floorplan we go to the required directory that is
+                   > vsduser@vsdsquadron:~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/11-09_15-36/results/floorplan
+              - Using the ```cd``` command.
+              - Then we type the command:
+                   > magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
+
+              - The following layout is displayed
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/6622214d-dac3-4cd8-b8d2-f3f30c095247)
+
+              - We can press 's' and then 'v' to align the design to the center of the screen.
+
+              - We can right click on the mouse and pess 'z' to zoom into a desired part.
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/8fb90206-cd3c-4177-9936-09885389bc84)
+
+              - We can check the details of the ports as follows
+              - Hover over a port with your crosshair and press 's' on your keyboard
+              - Now open the tkcon command window and type ```what```.
+              - This will show you the details of the selected port.
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/fbb5a5da-ce91-41fa-a23b-21eda8b68d5c)
+             
+              - If we zoom in a little more, we can see the tap cells.
+              - They are present to prevent latch up conditions which occur in the CMOS devices
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/540cc442-61e7-41f9-8075-276feb7f048f)
+
+              - These are the standard cells that are used in the design
 
 
 
@@ -386,8 +426,32 @@ https://github.com/efabless/openlane
 
 
 ### L5) Congestion aware placement using replace
+          - To view the placement we type
+                   > run_placement
+          - In the OpenLANE shell.
 
-        - 
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/18162a42-f288-4007-baba-6f759a9a6184)
+
+          - This is the result displayed. As we can see the '/picorv32a.placement.def' file is read.
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/5c9dc6ed-fc8e-4f8f-80c8-922a4f749991)
+
+          - We move one directory up from the 'floorplan' folder using
+                   > cd ../placement/
+
+          - To view the placement design we use the command
+                   > magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/a2807440-c80b-43c3-967d-e2c113fb44a4)
+
+          - The above is displayed.
+          - All these standard cells were present at the initial layout of the floorplan.
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/c4f005a1-0ac8-4693-bf09-d920692c4f09)
+
+          - If we zoom in we can see the placement of the standard cells in the standard cell rows.
+
+
 
 
 ## 3) CELL DESIGN AND CHARACTERIZATION FLOW
@@ -567,8 +631,7 @@ Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/8373d80c-5fe4-4bcf-b35f-c218f83439bb)
 
 
-
-   ### L5) Static and Dynamic simulation of CMOS inverter          - 
+         - 
    ### L6) Lab steps to gitclone vsdstd cell design
             - We need to perform a git clone here from a repository that we require, to do the future labs.
             - We can type the following command
