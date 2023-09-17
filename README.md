@@ -1,4 +1,4 @@
-# OPENLANE 
+     # OPENLANE 
 
 ## ABOUT THE REPOSITORY
 OpenLane is an automated RTL to GDSII flow based on several components including OpenROAD, Yosys, Magic, Netgen, CVC, SPEF-Extractor, KLayout and a number of custom scripts for design exploration and optimization. The flow performs all ASIC implementation steps from RTL all the way down to GDSII.
@@ -757,15 +757,136 @@ Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
 
 ### L8) Lab introduction to Sky130 basic layers layout and LEF using inverter
 
-                - - Now let us look at the layout of a CMOS inverter. To open this we type the command
+                - Now let us look at the layout of a CMOS inverter. To open this we type the command
 
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/ffaeccd3-bc9d-4169-a71c-bd49ac46d11f)
+
+                - Now run the command 
+                     > magic -T sky130A.tech sky130_inv.mag &
+                - The following layout will be displayed.
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/88cd9604-fd53-4e98-ba93-5e38a787c75b)
+
+
+                - We can get to know the details of the inverter by hovering the mouse cursor over it and pressing 's' on the keyboard. 
+                - Then we can type what in the tkcon. 
+                - Pressing 's' three times will show what parts are connected to the selected part.
+                - We shall look at the difference between LEF and Layout. The above image is a Layout.
+                - LEF represents abstract component data in a machine-readable format for IC libraries, while layout is the physical geometric arrangement 
+                  of these components on a semiconductor chip.
+
+
+                 
 ### L9) Lab steps to create std cell layout and extract spice netlist
 
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/2d94dc13-23e4-4fba-be19-c7b4ce650e60)
+
+
+                - DRC error can be veiwed on the tkcon
+                - To extract Spice Netlist we perform the following steps in the tkcon window:
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/2b8ecf3a-fe00-47b7-9572-a11b142aaceb)
+
+
+                - We use the commands
+                       > ext2spice cthresh 0 rthresh 0 -> this is done to copy the parasitic capacitances
+                - The next command is
+                       > ext2spice
+                - We can see that a sky130_inv.spice file will be created
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/f9fb8fc1-2072-4639-bc7f-36addff8f082)
+
+
+## 3) SKY130 TECH FILE LABS
+
+### L1) Lab steps to create final SPICE deck using Sky130 tech
+               - To start off we look at the minimum value of the layout window
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/3348cb27-20ec-41cd-8cb7-6ca935e4cf47)
+
+
+               -  We can use 'g' on the keyboard to activate the grid and after selecting a grid by right clicking on the mouse, we type box in tkcon window to check the 
+                  minimum value of the layout window
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/e51c812f-17b3-4aec-9494-a7ca47789b0b)
+
+### L2) Lab steps to characterize inverter using sky130 model files
+               - Next we need to open the spice file using the command
+                        > gedit sky130_inv.spice
+               - We need to configure it to the above specifications.
+               - Characterize Inverter using Sky130 Models
+               
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/47956882-ed55-49c0-b44d-c74b9b35bd90)
+
+               - We now plot the graph for output vs input sweeping the time.
+               - We first use the command
+                        > ngspice sky130_inv.spice
+               - In the ngspice shell we use the command
+                        > plot y vs time a
+               - The following graph will be displayed
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/c84ab36b-f69f-4522-ae24-0e991cdcb186)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/15043af9-98b3-4240-9e95-3bab51d89998)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/7253702f-ef83-4dee-be43-8836d566c4fd)
+
+#### Rise Time -> time taken to rise from 20% to 80% of the max value -> 2.25075e-09 - 2.184e-09 = 0.006675e-09 s.
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/a2bbacc2-2fc3-4a0d-a479-83a7c0389344)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/0e30da76-0999-4ab1-a3f6-9f7984f4a64a)
+
+#### Propogation Delay/Cell Rise Delay -> 2.21379e-09 - 2.15e-09 = 0.06379e-09 s.
+
+
+### L3) Lab introduction to Sky130 pdk's and steps to download labs
+               - Enter the command
+                       > wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz
+               - Move the fikes into the desktop using the below command
+                       > mv drc_tests.tgz Desktop/
+               - Extract the file using the folloeing command
+                       > tar xfz drc_tests.tgz 
+               - Check the files inside it using ls command
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/a3efcb42-3468-44a8-ba79-b0a972615736)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/8a72b6d9-47e0-4232-be72-5e1cb4bc6610)
+
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/c5c111f9-de69-4615-852c-320067d29161)
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/f1f51fc8-8a43-4ca4-8610-e834870977c3)
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/f1b66d9f-3739-4832-9e2c-0e965e36c2f7)
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/1b478f3e-02df-4f47-bc9a-97ba126ee646)
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/878cf256-a32a-4381-ab78-9e63bb3a2190)
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/ef0cd5e3-73f8-4514-9e1f-2750f3a8fa77)
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/9d172f7d-62e8-4b18-b86a-5272f24c9cbb)
 
 
 
 
 
+
+### L5) Lab introduction to Magic and steps to load Sky130 tech-rules
+### L6) Lab exercise to fix poly.9 error in Sky130 tech-file
+### L7) Lab exercise to implement poly resistor spacing to diff and tap
+### L8) Lab challenge exercise to describe DRC error as geometrical construct
+### L9) Lab challenge to find missing or incorrect rules and fix them
 
 
 
