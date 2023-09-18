@@ -1,10 +1,12 @@
-     # OPENLANE 
+# ☑️ OPENLANE ☑️
 
 ## ABOUT THE REPOSITORY
 OpenLane is an automated RTL to GDSII flow based on several components including OpenROAD, Yosys, Magic, Netgen, CVC, SPEF-Extractor, KLayout and a number of custom scripts for design exploration and optimization. The flow performs all ASIC implementation steps from RTL all the way down to GDSII.
 
 You can check out the documentation, including in-depth guides and reference manuals at [ReadTheDocs](https://openlane.readthedocs.io/).
 
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/b7591af9-cd28-4e59-abd4-c6a487935097)
 
  # COURSE 
 <details>
@@ -859,34 +861,115 @@ Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/a3efcb42-3468-44a8-ba79-b0a972615736)
 
 
+
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/8a72b6d9-47e0-4232-be72-5e1cb4bc6610)
+    
+     
+    
+### L5) Lab introduction to Magic and steps to load Sky130 tech-rules
 
-
+            - To open the software we type
+                 > magic -d XR
 
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/c5c111f9-de69-4615-852c-320067d29161)
 
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/f1f51fc8-8a43-4ca4-8610-e834870977c3)
 
-![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/f1b66d9f-3739-4832-9e2c-0e965e36c2f7)
+            - Selct M3 by clicking left an right button in the mouse , select an area M3
+            - And then tpe this command in the tkcon window It shows a DRC error 
+                 > drc why
+                   
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/7af2afdf-0c94-4a7a-9a54-0ee3b8fd16e5)
 
-![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/1b478f3e-02df-4f47-bc9a-97ba126ee646)
+            - To add contact cuts to metal3, first select an area using left and right click. Then hovering 
+                over the m3contact we click middle mouse button.
+            - To check the black boxes inside this, Type the following command 
+                 > cif see VIA2
 
-![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/878cf256-a32a-4381-ab78-9e63bb3a2190)
-
-![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/ef0cd5e3-73f8-4514-9e1f-2750f3a8fa77)
-
-![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/9d172f7d-62e8-4b18-b86a-5272f24c9cbb)
-
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/c2aee3f7-f35d-439b-a8c7-492aff5a56ba)
 
 
 
-
-
-### L5) Lab introduction to Magic and steps to load Sky130 tech-rules
 ### L6) Lab exercise to fix poly.9 error in Sky130 tech-file
-### L7) Lab exercise to implement poly resistor spacing to diff and tap
+       - In magic file type the following command
+            > load poly
+       - There will a diff between the spacing of poly.9 
+       - In order to over come this we need to sort the DRC error
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/c1065d5c-547e-40c7-84e6-08c7689d1994)
+
+       - There is a DRC error in the poly.mag file in 'poly.9'.
+       - Open the sky130A.tech file in the editor and make the following changes
+             > vi sky130A.tech 
+       - Add this line in the editor 
+             >  spacing xhrpoly,uhrpoly,xpc allpolynonres 480 touching_illegal \
+                     "xhrpoly/uhrpoly resistor spacing to diffusion < %d (poly.9)"
+
+             > spacing npres allpolynonres 480 touching_illegal \
+                     "poly.resistor spacing to N-tap < %d (poly.9)"
+              
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/c1ea1ff1-9c76-44ba-b674-517ca947dcc6)
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/8b6b7bc1-aa00-49ca-8a53-526dd57b0b5b)
+
+      - Now open the tkcon window and type 
+            > tech load sky130A.tech
+            > drc check 
+      - Now we can see that the DRC eroor will be solved 
+      
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/03a0b4ee-1598-4c77-b36c-3b104fe7c919)
+  
+
 ### L8) Lab challenge exercise to describe DRC error as geometrical construct
+      - Now we open the nmwell.mag file
+      - Open the tkcon window and type the following command
+           > cif ostyle drc
+           > cif see dnwell_shrink
+           > cif see nwell_missing
+     - The following window appears
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/4e033c6d-d5f7-4d5c-94af-cd5bff63ae19)
+
+
 ### L9) Lab challenge to find missing or incorrect rules and fix them
+       - Add nsubstratencontact somwhere into the nwell
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/bdda61a6-cdb9-4604-a666-ab2900f6e4a5)
+      
+       - And then make these changes in the editor file
+          > cifmaxwidth nwell_untapped 0 bend_illegal \
+              "Nwell missing tap (nwell.4)"
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/b6cb691f-3c9c-4e1f-a57f-49a0d99f3961)
+
+       - type the following commands in the editor file
+          > templayer nwell_tapped
+            bloat all nsc nwell
+          > templayer nwell_untapped nwell
+            and-not nwell_tapped
+          
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/13b35669-46d9-4629-a8f4-504bbb9bc8e6)
+
+          > variants (full)
+            cifmaxwidth nwell_untapped 0 bend_illegal \
+              "Nwell missing tap (nwell.4)"
+            variants *
+            
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/03fc9f68-758a-4258-a3ad-e49cb7d601d7)
+
+      - Type the following commands in the tkcon window
+            > tech load sky130A.tech
+            > drc check
+            > drc style drc(full)
+            > drc check
+      - The following window will appear
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/344181e2-f267-4dc8-9c81-fa483c743b63)
+
+      - Now if we select 'nsubstratencontact' somwhere inside the cell The problrm is solved
+       
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/d0590dd2-8681-4c1b-a4cd-3a2c95b719c9)
+
 
 
 
