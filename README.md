@@ -11,7 +11,7 @@ You can check out the documentation, including in-depth guides and reference man
 
  # COURSE 
 <details>
-<summary>DAY 1 : Insecption of open-source EDA, Openlane and sky130pdk </summary>
+<summary> DAY 1 : Insecption of open-source EDA, Openlane and sky130pdk  </summary>
 <br>
 
 # 1) Introduction to QFN-48 Package,chip,pads,core,die,and IP's and Introduction to RISC-V
