@@ -768,7 +768,7 @@ Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
                      > magic -T sky130A.tech sky130_inv.mag &
                 - The following layout will be displayed.
 
-![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/88cd9604-fd53-4e98-ba93-5e38a787c75b)
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/ff9195c0-7445-4f75-bf56-0e9d3567196d)
 
 
                 - We can get to know the details of the inverter by hovering the mouse cursor over it and pressing 's' on the keyboard. 
@@ -789,7 +789,8 @@ Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
                 - To extract Spice Netlist we perform the following steps in the tkcon window:
 
 
-![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/2b8ecf3a-fe00-47b7-9572-a11b142aaceb)
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/93bac30d-c8a1-4445-afed-ffe79c083150)
+
 
 
                 - We use the commands
@@ -799,7 +800,7 @@ Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
                 - We can see that a sky130_inv.spice file will be created
 
 
-![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/f9fb8fc1-2072-4639-bc7f-36addff8f082)
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/72bccd1d-53f6-4576-9d5e-1495bd6b2173)
 
 
 ## 3) SKY130 TECH FILE LABS
@@ -980,6 +981,115 @@ Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
 <details>
 <summary>DAY 4 : Prelayout timming layout analysis and inportance of good clock tree </summary>
 <br>
+
+## 1) TIMMING MODELLING USING DELAY TABLES
+
+### Lab challenge to find missing or incorrect rules and fix them
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/7caa9c46-1f7b-4c44-a849-d023b7d3dba9)
+
+       - Converting grid info into Track info
+       - Go to openlane directory / sky130_fd_sc_hd 
+       - type less tracks.info
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/b5bde9d6-5d95-4452-aec7-138935f5cefb)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/be3f5c92-6ef6-4ab2-8493-078e2ca01cc6)
+
+      - Here 1st value indicates the offset and 2nd value indicates the pitch along provided direction
+
+ 
+ ### Setting grid values using above file info
+
+        - ext2spice 
+        - help grid
+        - grid 0.46um 0.34um 0.23um 0.17um
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/5a6ae931-fa7f-4dc5-9624-489a53ffe754)
+
+
+### Before grid vs After grid
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/7caa9c46-1f7b-4c44-a849-d023b7d3dba9)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/bec49fed-8a12-4cf5-ae15-cb9fb811da01)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/592a608a-8bed-4c5c-b0e2-7abe6cb3a418)
+
+        - From the above pic, its confirmed that the pins A and Y are at the intersection of X and Y tracks. So the first condition is met.
+        - The PR boundary is taking 3 grids on width and 9 grids on height which says that the 2nd condition is also met
+
+
+
+## GENERATION OF A LEF FILE
+        - Once the layout is perfect we can generate the lef file
+        - In the tkcon window type the following command to save the updated layout
+              > save sky130_vsdinv.mag
+        - once it is saved then go to the terminal window and the type 
+              > magic -T sky130A.Tech sky130_vsdinv.mag &
+        - A magic layout opens , In the tkcon window type 
+              > lef write
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/f249106d-9204-4870-9122-1c2b5707cbf2)
+
+        - Once this is done lef file should be created in the vsd file
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/a969dff8-b8e6-45fd-9827-7938aaa223fb)
+
+        - To open the lif file type the below command in the terminal
+              > less sky130_vsdinv.lef
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/8b5a5093-f378-4373-b4cf-43decea2ff80)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/63a7e1f5-e878-48a3-91d3-0430f89a5a85)
+
+
+## STEPS TO INCLUDE NEW STEPS IN THE SYNTHESIS
+
+        - Open the picorv32a pwd in the terminal
+        - copy the path 
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/59c7483e-40b2-4d23-b7c7-123fac3364c7)
+
+        - Go to the vsdstdcelldesign in the other terminal type 
+              > cp sky130_vsdinv.lef /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/722778fc-c141-4d4d-b8f2-793d16a3f0eb)
+
+        - Now if u check in the picorv terminal, the lef file will be copied 
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/37de186e-57d2-4d89-a027-99fc34d1544e)
+
+        - Modify the config.tcl by
+             > vim config.tcl
+        - In the design's config.tcl file add the below line to point to the lef location which is required during spice extraction.
+               > set ::env(EXTRA_LEFS) [glob $::env(OPENLANE_ROOT)/designs/$::env(DESIGN_NAME)/src/*.lef]
+        - Include the below command to include the additional lef into the flow:
+               > set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+               > add_lefs -src $lefs
+        - Run the interactive mode 
+
+ ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/42df38b7-83e5-46dc-bd9f-ce4bc650e118)
+
+
+
+## 3) CLOCK TREE SYNTHESIS TRITON CTS AND SIGNAL INTEGRITY
+## 4) TIMMING ANALYSIS WITH REAL CLOCKS USING OPEN STA
+
+
+
+
+
+
+
+
+
+
+
 
 [Back to COURSE](https://github.com/Vinodkumar8318/Pes_Openlane_work/tree/main#course)
 
