@@ -1077,17 +1077,93 @@ Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
 
 
 
-## 3) CLOCK TREE SYNTHESIS TRITON CTS AND SIGNAL INTEGRITY
-## 4) TIMMING ANALYSIS WITH REAL CLOCKS USING OPEN STA
+## TIMMING ANALYSIS WITH REAL CLOCKS USING OPEN STA
+
+         - Configure OpenSTA for Post-Synth Timing Analysis
+         - We must create two files
+              - The first one must be in the openlane directory
+              - This file is known as the 'pre_sta.conf' file.
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/aeec25c6-c897-4218-be0b-62a048c76a54)
+
+              - The second is the my_base.sdc file.
+              - This should be in the 'src/sky130' directory under the picorv32a directory.
+             
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/d73a4a04-6bbf-4010-b7f2-8c3427dd0b12)
+
+              - To run tyming analysis we type 
+                    > sta pre_sta.conf
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/ac22c1af-3022-4ad5-b5b8-e4427e1bc888)
+
+             - There is a slack violation
+             - Settinf MAX_FANOUT value to 4 reduces the slack violation.
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/1a62d227-1a3c-4a71-880d-cf7dd8b45eb6)
 
 
+## Clock Tree Synthesis TritonCTS and Signal Integrity
+### Run CTS
+
+             -  To run CTS we need to type the command
+                       > run_cts
+                       > New .v is created
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/b1f93411-14b4-4f47-b523-4c1d7eb71913)
+
+#### Timing Analysis with Real CLocks using OpenSTA
+
+             - First we type the command 
+                    > openroad.
+             - Then we read the .lef file using the command
+                    > read_lef /openLANE_flow/designs/picorv32a/runs/16-09_19-58/tmp/merged.lef
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/f59877a7-4736-4229-94c6-305a1b1c0ad6)
+
+              - Then we read the .def file.
+                     > read_def /openLANE_flow/designs/picorv32a/runs/16-09_19-58/results/cts/picorv32a.cts.def
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/4252f6d9-60ca-482c-b9a5-08c817848f84)
+
+              - Then we type the below commands
+                     > write_db pico_cts.db
+                     > read_db pico_cts.db
+                     > read_verilog /openLANE_flow/designs/picorv32a/runs/16-09_19-58/results/synthesis/picorv32a.synthesis_cts.v
+                     > read_liberty -max $::env(LIB_SLOWEST)
+                     > read_liberty -max $::env(LIB_FASTEST)
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/9f159716-cc50-4088-904f-9fadb4184353)
+
+              - We read the .src file
+                    > read_sdc /openLANE_flow/designs/picorv32a/src/sky130/my_base.sdc
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/22e69c85-7822-44ee-a544-fb9cad238a1d)
+
+              - We set the clock and then check it
+                    > set_propagated_clock [all_clocks]
+                    > report_checks -path_delay min_max -format full_clock_expanded -digits 4
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/b23d8d20-7df9-485c-af23-44a2f6fde7ff)
 
 
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/a0ac65cd-eb98-4df7-8b0d-bd4127d033f8)
 
 
+              - We perform it again for the more accurate result
+              
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/215dd64d-4a1a-4e68-bf06-a89273648a12)
 
 
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/8e7259aa-ab61-4bb9-b2c0-fbbf47fbe6d2)
 
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/5d16114e-0883-42d1-886b-b064d5426d76)
+
+              -  Next type the following commands 
+                   > report_clock_skew -hold
+                   > report clock_skew -setup
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/86212a96-c004-49c9-824b-3b69c66927f3)
 
 
 
@@ -1097,5 +1173,43 @@ Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
 <details>
 <summary>DAY 5 : Final steps for RTL2GDS using triton route and openSTA </summary>
 <br>
+
+## Power Distribution Network and Routing
+
+After generating our clock tree network and verifying post routing STA checks we are ready to generate the power distribution network gen_pdn in OpenLANE:
+
+     The PDN feature within OpenLANE will create:
+
+          Power ring global to the entire core
+          Power halo local to any preplaced cells
+          Power straps to bring power into the center of the chip
+          Power rails for the standard cells
+
+   ### Build Power Distribution network
+   
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/5d1ea9af-11c2-4200-8fb4-ac7850ffa1dd)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/1f2915be-f8fc-4fb4-a192-3e2c30afa917)
+
+
+   ### Global and Detailed Routing
+
+   - OpenLANE uses TritonRoute as the routing engine run_routing for physical implementations of designs. Routing consists of two stages:
+           > Global Routing - Routing guides are generated for interconnects on our netlist defining what layers, and where on the chip each of the nets will be reputed
+           > Detailed Routing - Metal traces are iteratively laid across the routing guides to physically implement the routing guides
+
+   - If DRC errors persist after routing the user has two options:
+           > Re-run routing with higher QoR settings
+           > Manually fix DRC errors specific in tritonRoute.drc file
+
+  ### SPEF Extraction
+
+    - After routing has been completed interconnect parasitics can be extracted to perform sign-off post-route STA analysis. The parasitics are extracted into a SPEF file. The SPEF extractor 
+      is not included within OpenLANE as of now.
+           > cd ~/Desktop/work/tools/SPEFEXTRACTOR
+           > python3 main.py <path to merged.lef in tmp> <path to def in routing>
+    - The SPEF File will be generated in the location where def file is present
+
 
 [Back to COURSE](https://github.com/Vinodkumar8318/Pes_Openlane_work/tree/main#course)
