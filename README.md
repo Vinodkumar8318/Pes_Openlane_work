@@ -1099,10 +1099,6 @@ Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
            - To run the floorplans and placements we typr the following commands
                 > run_floorplan
                 > run_placement
-                
-  
-![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/b805d7ea-354d-4e41-b761-e86cdf57dc20)
-
 
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/8e3b333a-35f9-4830-9e18-fa25f2be744f)
 
