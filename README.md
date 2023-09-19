@@ -1068,40 +1068,37 @@ Fall transition time = time(slew_high_fall_thr) - time (slew_low_fall_thr)
              > vim config.tcl
         - In the design's config.tcl file add the below line to point to the lef location which is required during spice extraction.
                > set ::env(EXTRA_LEFS) [glob $::env(OPENLANE_ROOT)/designs/$::env(DESIGN_NAME)/src/*.lef]
-        - Include the below command to include the additional lef into the flow:
-               > set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
-               > add_lefs -src $lefs
-        - Run the interactive mode 
 
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/8ffe7b20-d457-4a99-84a9-0f5188025722)
+       
+        - Open the OpenLANE interactive window and retrieve the 0.9 package.
+        - Include the below command to include the additional lef into the flow:
+               > prep -design picorv32a -tag 16-09_10-10 -overwrite
+               > set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+               > add_lefs -src $lefs
+        - Run the interactive mode by the command
+               > run_synthesis
 
-![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/6cf04c38-6989-4132-87e7-4ca2e190ef5c)
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/5d8e7528-e7f6-4e0f-a7d1-4f2cbfb0769a)
 
-![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/68f1a325-8ae7-4b94-865f-8938136c0c1d)
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/055fc458-9baa-4a95-b337-e39f1ed09c07)
+
+        - Once the synthesis is successfull we get the following output
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/054c48a0-4b94-4502-bf8f-d348d233538f)
+
+
+![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/aba411fd-4484-48d6-abe3-5afa1ba3dad8)
+
 
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/4fefa4c4-77b6-4e45-b0d7-86d7bd3e830b)
-
-- since there is slack, we have to reduce it
-      VLSI engineers will obtain system specifications in the architecture design phase. These specifications will determine a required frequency of operation. To analyze a circuit's 
-      timing performance designers will use static timing analysis tools (STA). When referring to pre clock tree synthesis STA analysis we are mainly concerned with setup timing in regards to a 
-      launch clock. STA will report problems such as worst negative slack (WNS) and total negative slack (TNS). These refer to the worst path delay and total path delay in regards to our setup 
-      timing restraint. Fixing slack violations can be debugged through performing STA analysis with OpenSTA, which is integrated in the OpenLANE tool. To describe these constraints to tools such 
-      as In order to ensure correct operation of these tools two steps must be taken:
-
-           Design configuration files (.conf) - Tool configuration files for the specified design
-           Design Synopsys design constraint (.sdc) files - Industry standard constraints file
-
-     For the design to be complete, the worst negative slack needs to be above or equal to 0. If the slack is outside of this range we can do one of multiple things:
-
-   ### 1) Review our synthesis strategy in OpenLANE
-
-                     - Enalbed CELL_SIZING
-                     - Enabled SYNTH_STRATEGY with parameter as "DELAY 1"
-                     - The synthesis result is :
+  
 
            - To run the floorplans and placements we typr the following commands
                 > run_floorplan
                 > run_placement
+                
   
 ![image](https://github.com/Vinodkumar8318/Pes_Openlane_work/assets/142583979/b805d7ea-354d-4e41-b761-e86cdf57dc20)
 
